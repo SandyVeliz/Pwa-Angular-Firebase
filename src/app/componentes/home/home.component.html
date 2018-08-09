@@ -13,7 +13,7 @@
 <h1 class="mat-subheading-2 subtitulo">Tareas Pendientes</h1>
 
 <mat-card  class="card" *ngFor="let tarea of tareas">
-  <h1 class="mat-subheading-2">{{tarea.nombre}}</h1>
-  <mat-checkbox (change)="terminaTarea($event.checked, tarea)">
+  <h1 class="mat-subheading-2">{{tarea?.descripcion}}</h1>
+  <mat-checkbox (change)="terminaTarea(tarea)">
   </mat-checkbox>
 </mat-card>

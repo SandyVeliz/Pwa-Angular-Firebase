@@ -10,6 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '../../node_modules/@angular/fo
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { FirebasedbService } from './servicios/firebasedb.service';
+
 
 @NgModule({
   declarations: [
@@ -25,9 +30,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [FirebasedbService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

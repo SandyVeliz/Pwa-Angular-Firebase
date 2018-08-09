@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebasedbService } from '../../servicios/firebasedb.service';
+
+interface tarea {
+  descripcion: string
+}
 
 @Component({
   selector: 'app-home',
@@ -7,33 +12,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  nombreTarea: String;
+  nombreTarea: string;
 
-  tareas = [
-    { key: 1, nombre: 'Tarea1' },
-    { key: 2, nombre: 'Tarea2' },
-    { key: 3, nombre: 'Tarea3' },
-    { key: 4, nombre: 'Tarea4' },
-    { key: 5, nombre: 'Tarea5' },
-    { key: 6, nombre: 'Tarea6' }
-  ]
+  tareas: Array<any>;
 
-  constructor() { }
+  constructor(
+    private firebasedbService: FirebasedbService
+  ) { }
 
   ngOnInit() {
+    this.obtieneTareas()
   }
-
-
+  /**
+   * Obtiene el listado de tareas y lo muestra
+   */
+  obtieneTareas(){
+    this.firebasedbService.getTareas().subscribe(respuesta => {
+      this.tareas = respuesta;
+    });
+  }
+  /**
+   * Envia al servicio la descripcionb de la tarea para agregar a la DB
+   */
   agregarTarea() {
-    console.log(this.nombreTarea)
-  }
-
-  terminaTarea(sandy, tarea){
-    console.log(sandy, tarea.key)
-    if (sandy) {
-      
+    if (this.nombreTarea) {
+      this.firebasedbService.agregaTarea(this.nombreTarea) 
     }
-
+  }
+  /**
+   * Elimina la tarea segun el id que se agrego.
+   * @param tarea obtiene el objeto tarea para enviar el id a eliminar
+   */
+  terminaTarea(tarea){
+    if (tarea) {
+      this.firebasedbService.borraTarea(tarea.id) 
+    }
   }
 
 }
